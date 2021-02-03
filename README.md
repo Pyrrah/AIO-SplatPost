@@ -3,7 +3,7 @@ AIO-SplatPost
 
 This package is a fork of [`P4RI4H`](https://github.com/P4RI4H/AIO-SplatPost).
 
-?? This package use the latest **Python 3** *(tested with 3.9.1)* and **LUFA 210130**.
+🆕 This package use the latest **Python 3** *(tested with 3.9.1)* and **LUFA 210130**.
 Also, I improved a batch file with more options to help you to configure easily your Teensy++ 2.0 card.
 
 Tools needed
