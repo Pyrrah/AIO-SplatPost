@@ -6,20 +6,101 @@
 
  /** \page Page_ChangeLog Project Changelog
   *
-  *  \section Sec_ChangeLogXXXXXX Version XXXXXX
+  *  \section Sec_ChangeLog210130 Version 210130
   *  <b>New:</b>
-  *   - Added support for the Atmel Xplained-MINI series of development kits.
+  *  - Core:
+  *   - The USE_INTERNAL_SERIAL definition can now be overridden by the user to a custom string index (thanks to Nicohood)
+  *   - New CCID class driver and associated demos (thanks to Filipe Rodrigues)
+  *  - Library Applications:
+  *   - Added Microsoft OS Compatibility descriptors to the RNDIS demos for driverless install on Windows 7 and newer
+  *   - Added AVRISP-MKII support for target OSCCAL calibration (thanks to Jacob September)
   *
   *  <b>Changed:</b>
+  *  - Core:
+  *   - Moved the functional descriptor types DTYPE_CSInterface and DTYPE_CSEndpoint to their respective CDC and Audio class
+  *     drivers, as they are class-defined rather than general descriptor types.
+  *   - Reduced compiled size of the Endpoint_Discard_Stream() and Endpoint_Null_Stream() functions.
+  *  - Library Applications:
+  *   - Updated Printer class bootloader to not store 32-bit HEX parser flash offsets on small flash devices.
+  *   - Enabled Link Time Optimizations (LTO) on bootloaders to reduce compiled size on newer versions of GCC.
+  *
+  *  <b>Fixed:</b>
+  *  - Core:
+  *   - Fixed DeviceUsesOUTPipe flag not being set correctly in the HID host class driver (thanks to Wolfgang Schnerring)
+  *   - Fixed CDC Device class driver's internal serial stream created by \ref CDC_Device_CreateStream not returning the written
+  *     character after a successful write (thanks to NicoHood)
+  *   - Fixed incorrect endpoint bank setup on the UC3 architecture (thanks to Andrus Aaslaid)
+  *   - Fixed CDC_Device_Send*_P() and CDC_Host_Send*_P() variant functions not compiled out for UC3 architecture
+  *   - Fixed USB_STRING_DESCRIPTOR_ARRAY() not accepting more than two byte long arrays
+  *   - Fixed HID report parser corruption when parsing PUSH and POP report item elements
+  *   - Fixed HID report parser incorrectly decoding 32-bit USAGE elements
+  *   - Fixed control request hangs in the Printer device class driver (thanks to Juergen Borleis)
+  *  - Library Applications:
+  *   - Fixed bootloaders not disabling global interrupts during erase and write operations (thanks to Zoltan)
+  *   - Fixed bootloaders accepting flash writes to the bootloader region (thanks to NicoHood)
+  *   - Fixed bootloaders incorrectly checking the BOOTRST fuse on start (thanks to Braden Kell)
+  *   - Fixed Mass Storage bootloader incorrectly updating the lower nibble of the FAT12 cluster
+  *   - Fixed void pointer arithmetic in the low level RNDIS demo protocol decoders
+  *   - Fixed invalid DHCP server socket creation in the Webserver project
+  *
+  *  \section Sec_ChangeLog170418 Version 170418
+  *  <b>New:</b>
+  *  - Core:
+  *   - Added support for the Pololu A-Star Micro board (thanks to Joh Schneider)
+  *   - Added new \c LUFA_VERSION_RELEASE_TYPE macro to the library version header, to determine release type (thanks to NicoHood)
+  *
+  *  <b>Fixed:</b>
+  *  - Core:
+  *   - The CALLBACK_USB_GetDescriptor() callback function into the user application erroneously had a uint8_t type for the wIndex
+  *     parameter, instead of uint16_t (thanks to Matlo)
+  *   - Fixed broken USE_RAM_DESCRIPTORS compile time option when the FIXED_NUM_CONFIGURATIONS compile time option is not enabled
+  *     in a user application (thanks to Matlo)
+  *   - Fixed missing \c va_end() calls in the HID bootloader CLI app which could cause portability issues
+  *   - Fixed void pointer arithmetic in the \c Serial_SendData() functions for AVR8 and XMEGA architectures
+  *   - Fixed invalid endpoint indexes causing memory corruption in device Clear/Set Feature standard requests (thanks to Peter Popovec)
+  *   - Fixed incorrect serialization in USB_SetHIDReportItemInfo() function (thanks to e-chip)
+  *  - Library Applications:
+  *   - Fixed low level RNDIS demo incorrectly setting the RNDIS state when a null packet filter was requested
+  *   - Fixed void pointer arithmetic in the low level and class driver RNDIS demo protocol decoders
+  *   - Fixed missing entries in several project's Atmel Studio integration files, such as driver INF files
+  *
+  *  <b>Changed:</b>
+  *  - Core:
+  *   - Replaced the LUFA build system with its (compatible) successor, DMBS (Dean's Makefile Build System)
+  *   - Removed obsolete library TAR export and associated documentation
+  *   - Fixed incorrect HID_DESCRIPTOR_KEYBOARD() macro definition (thanks to Eric Tang)
+  *  - Library Applications:
+  *   - Added signed alternative libUSB driver for the AVRISP-MKII clone project, to support Atmel Studio 7 (thanks to Atmel)
+  *   - Removed no longer required LIBUSB_DRIVER_COMPAT and RESET_TOGGLES_LIBUSB_COMPAT configuration options from the AVRISP-MKII
+  *     clone project, as the new libUSB driver works for AVRDUDE and Atmel Studio 7 under Windows
+  *
+  *  \section Sec_ChangeLog151115 Version 151115
+  *  <b>New:</b>
+  *   - Added support for the Atmel Xplained-MINI series of development kits
+  *   - Added new PROGMEM variant send functions to the CDC class device driver (thanks to Stefan Hellermann)
+  *   - Added new PROGMEM variant send functions to the CDC class host driver
+  *   - Added additional Arduino Uno board definitions for the main processor reset (thanks to NicoHood)
+  *   - Added modified DocBook transforms to generate Atmel Studio 6/7 internal help documentation (thanks to Morten Engelhardt Olsen)
+  *
+  *  <b>Changed:</b>
+  *  - Core:
+  *   - The TWI peripheral driver's TWI_WritePacket() and TWI_ReadPacket() functions now takes a 16-bit Length rather than an 8-bit
+  *     length, for longer transfers
   *  - Library Applications:
   *   - The CDC, DFU, Mass Storage and Printer class bootloaders will no longer run the user application if the application reset
   *     vector is blank (thanks to Alex Kazik)
-  *   - The CDC, DFU and Printer class bootloaders are now compatible with the original Atmel XPLAIN and Arduino Leonardo boards.
+  *   - The CDC, DFU and Printer class bootloaders are now compatible with the original Atmel XPLAIN and Arduino Leonardo boards
   *   - The CDC, DFU, Mass Storage and Printer class bootloaders are not compatible with devices with the BOOTRST fuse set and will
   *     exit automatically unless an external reset was the last reset cause (thanks to Alex Kazik)
+  *   - Added missing force-inline attribute to the endianness utility functions (thanks to Stefan Hellermann)
+  *   - Updated the DFU build system module to use updated EEPROM programming command arguments for dfu-programmer 0.6.2 or newer
   *
   *  <b>Fixed:</b>
-  *   - None.
+  *   - Fixed broken XMEGA serial stream driver due to missing USART base pointer parameter (thanks to William Patterson)
+  *   - Fixed incorrect signature reported in the CDC/DFU bootloaders for the AT90USB82 (thanks to NicoHood)
+  *   - Fixed broken RNDIS demos on Linux machines whose DHCP hosts require a Lease Time option (thanks to Stefan Hellermann)
+  *   - Fixed broken LEDs_Disable() implementation for the Arduino Uno board (thanks to NicoHood)
+  *   - Fixed missing bounds checks and off-by-one in the DFU bootloader signature bytes (thanks to Reuti)
   *
   *  \section Sec_ChangeLog140928 Version 140928
   *  <b>New:</b>
