@@ -29,6 +29,7 @@ Configuration
   1. Unzip the package source on your desktop.
 
   2. With GIMP, create a picture with dimensions: `320x120` (example available in the folder ./GIMP_Example)
+
   Convert your picture: Go to menu Image > Mode > Indexed.
   In the new window opened, click on `Use black and white (1-bit) palette.` and change the drop-down menu next to color dithering to `Floyd-Steinberg (normal)`.
   Once done, click on `Convert` button.
