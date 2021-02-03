@@ -1,5 +1,5 @@
 @echo off
-title Splatoon2 Personnal Cover by Pyrrah
+title SplatPost Personnal Cover by Pyrrah
 :: Program banner
 call :banner
 call :c 0B "This batch help you to configure your Teensy++ 2.0 card."
@@ -54,7 +54,7 @@ cmd /k
 
 :banner
 call :c 0D "+-------------------------+"
-call :c 0D " Splatoon2 Personnal Cover"
+call :c 0D " SplatPost Personnal Cover"
 call :c 0D "+-------------------------+"
 goto :eof
 
