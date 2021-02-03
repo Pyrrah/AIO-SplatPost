@@ -14,9 +14,6 @@ call :c 0B "[...Starting to check tools...]"
 set /A check=1
 if exist ./SplatPost/image.data (
     echo  [OK] File "image.data" founded.
-	for /f "tokens=1-2" %%i in ('identify -ping -format "%%w %%h"./SplatPost/image.data') do set W=%%i & set H=%%j
-	echo width: %W%
-	echo height: %H%
 ) else (
     echo  [NOK] File "image.data" not found. Please create with GIMP and put your file on the SplatPost directory.
 	set /A check=0
