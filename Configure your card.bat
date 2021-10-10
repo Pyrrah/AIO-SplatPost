@@ -10,7 +10,7 @@ call :banner
 call :c 0B "[...Starting to check tools...]"
 
 :: START check tools
-:: Check if python, avr-size are installed on your computer. If not, please refer on the REAME file.
+:: Check if python, avr-size are installed on your computer. If not, please refer on the README file.
 set /A check=1
 if exist ./SplatPost/image.data (
     echo  [OK] File "image.data" founded.
@@ -21,7 +21,7 @@ if exist ./SplatPost/image.data (
 python --version >nul 2>&1 && (
     echo  [OK] Python installed.
 ) || (
-    echo  [NOK] Python isn't found. Please install last official version on https://www.python.org/downloads/.
+    echo  [NOK] Python not found. Please install last official version on https://www.python.org/downloads/.
 	set /A check=0
 )
 avr-gcc --version >nul 2>&1 && (
@@ -48,7 +48,7 @@ python bin2c.py image.data > image.c
 make
 call :c 0E " [CAUTION] Please press on reset button on your Teensy++ 2.0 card to load the new HEX!"
 teensy_loader_cli -mmcu=at90usb1286 -wv Joystick.hex
-call :c 0A " [OK] Congratulation, your installation is finished."
+call :c 0A " [OK] Congratulations, your installation is finished."
 cmd /k
 :: END processing
 

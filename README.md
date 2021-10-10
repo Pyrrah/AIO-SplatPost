@@ -14,7 +14,7 @@ Tools needed
 
   2. **Arduino IDE** : Install the package to have all tools
   https://www.arduino.cc/en/software
-  After, dont't forget to add the PATH Environnement : `C:\Program Files (x86)\Arduino\hardware\tools\avr\bin`
+  After, don't forget to add the PATH Environnement : `C:\Program Files (x86)\Arduino\hardware\tools\avr\bin`
   
   3. **LUFA** : Check if a new version is available
   https://www.fourwalledcubicle.com/LUFA.php
